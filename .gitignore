@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Playwright
+playwright-report/
+playwright/.cache/
+test-results/
+
+# Environment and secret files
+.env
+.env.*
+!.env.example
+.env.local
+.env.development
+.env.production
+.env.test
+*.pem
+*.key
+*.p12
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+prisma/dev.db*
+prisma/test.db*
+
+# Generated temp
+tmp/
+temp/
+*.tmp
+
+# Prisma generated client
+prisma/generated/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Docker
+.dockerignore
+Dockerfile.local

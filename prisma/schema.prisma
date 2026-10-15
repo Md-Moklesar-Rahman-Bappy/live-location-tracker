@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../prisma/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  displayName       String
+  email             String    @unique
+  passwordHash      String
+  emailVerifiedAt   DateTime?
+  status            String    @default("ACTIVE")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  authSessions      AuthSession[]
+  trackingSessions  TrackingSession[]
+  securityEvents    SecurityEvent[]
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model AuthSession {
+  id            String   @id @default(cuid())
+  userId        String
+  sessionToken  String   @unique
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+  lastUsedAt    DateTime @default(now())
+  revokedAt     DateTime?
+  userAgent     String?
+  ipAddress     String?
+
+  user          User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([revokedAt])
+}
+
+model TrackingSession {
+  id              String          @id @default(cuid())
+  ownerId         String
+  publicId        String          @unique
+  tokenHash       String
+  label           String?
+  status          String          @default("ACTIVE")
+  historyEnabled  Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  startedAt       DateTime?
+  expiresAt       DateTime?
+  stoppedAt       DateTime?
+  revokedAt       DateTime?
+  lastLocationAt  DateTime?
+
+  owner           User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  locationPoints  LocationPoint[]
+
+  @@index([ownerId])
+  @@index([publicId])
+  @@index([status])
+  @@index([expiresAt])
+  @@index([lastLocationAt])
+  @@index([ownerId, status])
+}
+
+model LocationPoint {
+  id                String   @id @default(cuid())
+  trackingSessionId String
+  latitude          Float
+  longitude         Float
+  accuracy          Float
+  altitude          Float?
+  heading           Float?
+  speed             Float?
+  capturedAt        DateTime
+  receivedAt        DateTime @default(now())
+
+  trackingSession TrackingSession @relation(fields: [trackingSessionId], references: [id], onDelete: Cascade)
+
+  @@index([trackingSessionId])
+  @@index([capturedAt])
+  @@index([trackingSessionId, capturedAt])
+}
+
+model SecurityEvent {
+  id        String   @id @default(cuid())
+  userId    String?
+  eventType String
+  metadata  String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([eventType])
+  @@index([createdAt])
+  @@index([userId])
+}

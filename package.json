@@ -1,0 +1,39 @@
+{
+  "name": "live-location-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A consent-based live location sharing and tracking web application.",
+  "author": "Md Moklesar Rahman",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://example.com/md-moklesar-rahman/live-location-tracker.git"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace apps/server & npm run dev --workspace apps/web",
+    "dev:server": "npm run dev --workspace apps/server",
+    "dev:web": "npm run dev --workspace apps/web",
+    "build": "npm run build --workspace apps/server && npm run build --workspace apps/web",
+    "lint": "npm run lint --workspace apps/server && npm run lint --workspace apps/web",
+    "format": "npm run format --workspace apps/server && npm run format --workspace apps/web",
+    "format:check": "npm run format:check --workspace apps/server && npm run format:check --workspace apps/web",
+    "typecheck": "npm run typecheck --workspace apps/server && npm run typecheck --workspace apps/web",
+    "test": "npm run test --workspace apps/server",
+    "test:integration": "npm run test:integration --workspace apps/server",
+    "test:e2e": "npm run test:e2e --workspace apps/server",
+    "db:migrate": "npm run db:migrate --workspace apps/server",
+    "db:seed": "npm run db:seed --workspace apps/server",
+    "db:studio": "npm run db:studio --workspace apps/server",
+    "cleanup": "npm run cleanup --workspace apps/server",
+    "start": "npm run start --workspace apps/server",
+    "install:all": "npm install"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}
