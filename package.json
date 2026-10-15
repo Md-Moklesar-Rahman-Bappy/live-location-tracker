@@ -41,10 +41,14 @@
     "esbuild@0.21.5": true,
     "prisma@5.22.0": true,
     "@prisma/engines@5.22.0": true,
-    "argon2@0.45.1": true
+    "argon2@0.45.1": true,
+    "@prisma/client@5.22.0": true
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "typescript-eslint": "^8.71.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0"
   }
 }
